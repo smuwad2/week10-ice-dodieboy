@@ -1,23 +1,32 @@
 <script>
-    export default {
-        data() {
-            return {
-                desc: '',
-                deadline: '',
-                taskList: []
-            }
-        },
-        methods: {
-            add() {
-                this.taskList.push( { 'desc': this.desc, 'deadline': this.deadline } )
+import TaskTracker from './subcomponents/TaskTracker.vue';
+
+export default {
+    data() {
+        return {
+            desc: '',
+            deadline: '',
+            taskList: []
+        }
+    },
+    methods: {
+        add() {
+            if (this.desc.trim() && this.deadline) {
+                this.taskList.push({ 
+                    'desc': this.desc, 
+                    'deadline': this.deadline 
+                })
                 this.desc = ''
                 this.deadline = ''
-            },
-            // TODO: Add a new method, to delete a task completed
-            
+            }
+        },
+        removeTask(index) {
+            this.taskList.splice(index, 1)
         }
+    },components:{
+        TaskTracker
     }
-
+}
 </script>
 
 <template>
@@ -33,9 +42,13 @@
     <button type="button" @click="add" class="btn btn-primary">Add New Task</button>
     <hr>
 
-    <!-- TODO: Modify following code -->
-    <task-tracker ></task-tracker>
-
+    <task-tracker 
+        v-for="(task, index) in taskList" 
+        :key="index"
+        :task="task" 
+        :idx="index"
+        @task-done="removeTask"
+    ></task-tracker>
 </template>
 
 <style scoped>

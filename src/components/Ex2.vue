@@ -10,7 +10,7 @@
         },
         computed: {
             baseUrl() {
-                if (window.location.hostname=='localhost')
+                if (window.location.hostname=='localhost' || window.location.hostname=='127.0.0.1')
                     return 'http://localhost:3000' 
                 else {
                     const codespace_host = window.location.hostname.replace('5173', '3000')
@@ -28,12 +28,15 @@
             .catch(error => {
                 this.posts = [{ entry: 'There was an error: ' + error.message }]
             })
+        },
+        components:{
+            blogPost
         }
     }
 </script>
 
 <template>
    <!-- TODO: make use of the 'blog-post' component to display the blog posts -->
-
+    <blogPost v-for="post in posts" v-bind:entry="post.entry" v-bind:subject="post.subject" v-bind:mood="post.mood"></blogPost>
 </template>
 
