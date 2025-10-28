@@ -18,6 +18,7 @@ test('Ex3 delete first blog post test', async ({mount}) => {
     expect(numElems).toBeGreaterThan(0);
     expect(numElems).toBe(postCount);
     await component.locator('button:has-text("Delete")').first().click();
+    await new Promise(resolve => setTimeout(resolve, 1000));
     const newResponse = await axios.get('http://localhost:3000/posts');
     const newPosts = newResponse.data;
     const newPostCount = newPosts.length;
